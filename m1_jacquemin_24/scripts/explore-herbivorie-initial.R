@@ -1,7 +1,7 @@
 #-----------------------------------------#
 #### explorer les données d'herbivorie ####
-# première exploration des données 
-# réunion du 11 avril 2024 - début stage 
+# première exploration des données
+# réunion du 11 avril 2024 - début stage
 #-----------------------------------------#
 
 setwd("m1_jacquemin_24")
