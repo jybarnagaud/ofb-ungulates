@@ -22,7 +22,7 @@ liste_essence <- sort(unique(clean_1$essence))
 print(liste_essence)
 
 
-## MAJuscule -------------------------------------------------------------------------
+## Majuscule -------------------------------------------------------------------------
 
 clean_2 <- clean_1  # -> Creation de clean_2 avec les valeures de clean_1
 clean_2$essence <- toupper(clean_1$essence)  ## Tout en maj pour essences
@@ -54,7 +54,7 @@ plus_guilde <- plus_guilde %>%
     TRUE ~ NA_character_  
   ))
 
-## Memo triyage  -------------------------------------------------------------------------------------
+## Memo triage  -------------------------------------------------------------------------------------
 
 ############## NOISETIER = COUDRIER
 ############## "FRAISIA" ??
@@ -91,3 +91,4 @@ diagramme <- ggplot(donnees, aes(x = Classe_d_essence, y = Nombre_d_occurrences)
 
 # Afficher le diagramme
 print(diagramme)
+
