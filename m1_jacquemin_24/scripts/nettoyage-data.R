@@ -1,7 +1,9 @@
-####### NETTOYAGE DONNEE - 11/04/2022
-
-setwd("m1_jacquemin_24")
-
+#--------------------------------------------------------------#
+####### NETTOYAGE DONNEES - 11/04/2022
+# des données brutes fournies par l'OFB produire un nouvel Excel 
+# nettoyé (erreurs de saisie etc)
+# auteur: A. Jacquemin
+#--------------------------------------------------------------#
 
 ## librairies ------------------------------------------
 
@@ -13,22 +15,33 @@ library(ggplot2)
 
 ## Importation data ------------------------------------------------
 
-clean_1 <- read_excel("data/bdd_propre_PF_RNCFS_WG - Copie.xlsx")
-summary(clean_1)
+clean0 <- as.data.frame(read_excel("m1_jacquemin_24/data/bdd_propre_PF_RNCFS_WG.xlsx"))
 
+## clean noms de placettes -----------------------------------------------------
+
+plac.list <- clean0$placette
+not.good <- grep("-", plac.list,invert = T)
+plac.correct <- paste("7",plac.list[not.good], sep =  "-")
+
+clean0$placette.2 <- clean0$placette
+clean0[not.good,"placette.2"] <- plac.correct
+
+clean1 <- aggregate(clean0[,c("presence","consommation")],by = list(clean0$annee,clean0$placette.2, clean0$essence), FUN = "max")
+colnames(clean1) <- c("annee","placette","essence","presence","consommation")
 
 ## Liste des noms essences -----------------------------------------------------
-liste_essence <- sort(unique(clean_1$essence))
+
+liste_essence <- sort(unique(clean1$essence))
 print(liste_essence)
 
 
 ## Majuscule -------------------------------------------------------------------------
 
-clean_2 <- clean_1  # -> Creation de clean_2 avec les valeures de clean_1
-clean_2$essence <- toupper(clean_1$essence)  ## Tout en maj pour essences
+clean_2 <- clean1  # -> Creation de clean_2 avec les valeures de clean_1
+clean_2$essence <- toupper(clean_2$essence)  ## Tout en maj pour essences
 
   ## Liste essence
-liste_essence_2 <- sort(unique(bdd_propre_PF_RNCFS_WG_Clean$essence))
+liste_essence_2 <- sort(unique(clean_2$essence))
 print(liste_essence_2)
 ## -> C'est ok, tout en Maj
 
@@ -68,27 +81,6 @@ plus_guilde <- plus_guilde %>%
 ## Sauvegarde du fichier #1 : bdd_propre_PF_RNCFS_WG_clean
 
 bdd_propre_PF_RNCFS_WG_clean <- plus_guilde
-chemin_fichier <- "C:/Users/anais/Documents/ofb_m1/ofb-ungulates/m1_jacquemin_24/data/bdd_propre_PF_RNCFS_WG_clean.xlsx"
+chemin_fichier <- "m1_jacquemin_24/data/bdd_propre_PF_RNCFS_WG_clean.xlsx"
 write.xlsx(bdd_propre_PF_RNCFS_WG_clean, chemin_fichier, rowNames = FALSE)
-
-
-## Subset du tab avec que de la consomation 
-
-tab_conso <- plus_guilde %>%
-  filter(consommation == 1)
-print(tab_conso)
-
-## Test de trucs
-
-donnees <- data.frame(Classe_d_essence = names(table(tab_conso$essence)),
-                      Nombre_d_occurrences = as.vector(table(tab_conso$essence)))
-
-# Créer le diagramme à barres
-diagramme <- ggplot(donnees, aes(x = Classe_d_essence, y = Nombre_d_occurrences)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  labs(x = "Classe d'essence", y = "Nombre d'occurrences") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-# Afficher le diagramme
-print(diagramme)
 
