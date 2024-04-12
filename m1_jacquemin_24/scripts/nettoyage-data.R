@@ -77,6 +77,11 @@ plus_guilde <- plus_guilde %>%
 
 ## ------------------------------------------------------------------------------------------------------
 
+# liste des espèces
+
+index.sp <- unique(plus_guilde[,c("essence","guilde")])
+chemin.index <- "m1_jacquemin_24/data/index_especes.xlsx"
+write.xlsx(index.sp, chemin.index, rowNames = FALSE)
 
 ## Sauvegarde du fichier #1 : bdd_propre_PF_RNCFS_WG_clean
 
