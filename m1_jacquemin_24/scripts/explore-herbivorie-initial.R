@@ -59,3 +59,4 @@ screeplot(afc.pres)
 cumsum(afc.pres$eig)/sum(afc.pres$eig)
 
 s.label(afc.pres$li,plabels = list(cex = 0.5))
+
