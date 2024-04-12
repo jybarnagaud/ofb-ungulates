@@ -67,6 +67,15 @@ plus_guilde <- plus_guilde %>%
     TRUE ~ NA_character_  
   ))
 
+## noms d'espèces modifiés -----------------------------------------------------
+
+
+
+ind.sp <- as.data.frame(read_excel("m1_jacquemin_24/data/index_especes.xlsx"))
+
+plus_guilde2 <- merge(plus_guilde, ind.sp, by = "essence", all = T)
+
+
 ## Memo triage  -------------------------------------------------------------------------------------
 
 ############## NOISETIER = COUDRIER
@@ -79,13 +88,13 @@ plus_guilde <- plus_guilde %>%
 
 # liste des espèces
 
-index.sp <- unique(plus_guilde[,c("essence","guilde")])
+index.sp <- unique(plus_guilde2[,c("essence","guilde")])
 chemin.index <- "m1_jacquemin_24/data/index_especes.xlsx"
 write.xlsx(index.sp, chemin.index, rowNames = FALSE)
 
 ## Sauvegarde du fichier #1 : bdd_propre_PF_RNCFS_WG_clean
 
-bdd_propre_PF_RNCFS_WG_clean <- plus_guilde
+bdd_propre_PF_RNCFS_WG_clean <- plus_guilde2
 chemin_fichier <- "m1_jacquemin_24/data/bdd_propre_PF_RNCFS_WG_clean.xlsx"
 write.xlsx(bdd_propre_PF_RNCFS_WG_clean, chemin_fichier, rowNames = FALSE)
 
