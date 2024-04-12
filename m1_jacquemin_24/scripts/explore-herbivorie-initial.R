@@ -19,8 +19,6 @@ library(factoextra)
 herbivorie <-
   as.data.frame(read_excel("m1_jacquemin_24/data/bdd_propre_PF_RNCFS_WG_clean.xlsx"))
 
-herbivorie$code_territoire <- factor(herbivorie$code_territoire)
-
 ## exploration ------------------------------------------
 
 # Subset du tab avec que de la consomation 
